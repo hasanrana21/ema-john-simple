@@ -1,0 +1,20 @@
+.product{
+    display: flex;
+    border-bottom: 1px solid lightgray;
+    margin-right: 10px;
+    padding: 10px 5px;
+}
+.product-details{
+    margin: 10px 10px;
+}
+.product-details h3{
+    color: blue;
+    font-weight: 400;
+}
+.primary-btn{
+    padding: 5px 60px;
+    background-color: #f0c14b;
+    border-color: #f0c14b;
+    border-radius: 5px;
+    cursor: pointer;
+}
