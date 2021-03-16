@@ -1,0 +1,10 @@
+.review-item{
+    border-bottom: 2px solid lightgray;
+    margin-left: 200px;
+    padding-bottom: 7px;
+    display: flex;
+    align-items: center;
+}
+.review-img{
+    margin-right: 10px;
+}
