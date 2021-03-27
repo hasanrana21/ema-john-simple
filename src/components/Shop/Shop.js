@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import fakeData from '../../fakeData';
+// import fakeData from '../../fakeData';
 import './Shop.css'
 import Product from '../Product/Product';
 import Cart from '../Cart/Cart';
@@ -7,22 +7,41 @@ import { Link } from 'react-router-dom';
 import { addToDatabaseCart, getDatabaseCart } from '../../utilities/databaseManager';
 
 const Shop = () => {
-    const first10 = fakeData.slice(0, 10);
-    const [products, setProducts] = useState(first10);
+    // const first10 = fakeData.slice(0, 10);
+    const [products, setProducts] = useState([]);
     const [cart, setCart] = useState([]);
-    // console.log(products)
+
+    useEffect(() =>{
+        fetch('https://aqueous-reaches-51060.herokuapp.com/products')
+        .then(res => res.json())
+        .then(data => {
+            setProducts(data);
+        })
+    }, [])
     
     useEffect(() =>{
         const saveCard = getDatabaseCart();
         const productKeys = Object.keys(saveCard);
-        const previousKey = productKeys.map(existingKey =>{
-            const product = fakeData.find(pd => pd.key === existingKey);
-            product.quantity = saveCard[existingKey];
-            return product;
+
+        fetch('https://aqueous-reaches-51060.herokuapp.com/productsByKeys', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'Application/json'
+            },
+            body: JSON.stringify(productKeys)
         })
-        setCart(previousKey);
-        console.log(productKeys)
-    }, [])
+        .then(res => res.json())
+        .then(data => setCart(data));
+        // if(products.length > 0){
+        //     const previousKey = productKeys.map(existingKey =>{
+        //         const product = products.find(pd => pd.key === existingKey);
+        //         product.quantity = saveCard[existingKey];
+        //         return product;
+        //     })
+        //     setCart(previousKey);
+        //     console.log(productKeys)
+        // }
+    }, [products])
 
     const handleButton = (product) =>{
         const toBeAdded = product.key;

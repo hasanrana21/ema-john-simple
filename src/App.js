@@ -19,7 +19,6 @@ function App() {
     <UserContext.Provider value={[loggedInUser, setLoggedInUser]}>
       <Router>
         <Header></Header>
-        <h3>Email: {loggedInUser.email}</h3>
         <Switch>
           <Route path="/shop">
             <Shop></Shop>
@@ -51,5 +50,7 @@ function App() {
     </UserContext.Provider>
   );
 }
+
+// Complete Module 48 / ema-john-simple / latest updated
 
 export default App;

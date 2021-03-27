@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import fakeData from '../../fakeData';
+// import fakeData from '../../fakeData';
 import { getDatabaseCart, processOrder, removeFromDatabaseCart } from '../../utilities/databaseManager';
 import Cart from '../Cart/Cart';
 import Reviewitem from '../Reviewitem/Reviewitem';
@@ -13,14 +13,26 @@ const Review = () => {
     useEffect(()=>{
         const saveCard = getDatabaseCart();
         const productKeys = Object.keys(saveCard);
-        const cartProducts = productKeys.map(key => {
-            const product = fakeData.find(pd => pd.key === key);
-            product.quantity = saveCard[key];
-            return product;
-        });
-        setCart(cartProducts);
-        // console.log(cartProducts);
+
+        fetch('https://aqueous-reaches-51060.herokuapp.com/productsByKeys', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'Application/json'
+            },
+            body: JSON.stringify(productKeys)
+        })
+        .then(res => res.json())
+        .then(data => setCart(data));
+
+        // const cartProducts = productKeys.map(key => {
+        //     const product = fakeData.find(pd => pd.key === key);
+        //     product.quantity = saveCard[key];
+        //     return product;
+        // });
+        // setCart(cartProducts);
+        // // console.log(cartProducts);
     },[])
+
     const removeButton = (productKey) =>{
         const newCart = cart.filter(pd => pd.key !== productKey);
         setCart(newCart);

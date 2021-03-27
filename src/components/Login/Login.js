@@ -22,22 +22,20 @@ function Login() {
 const [loggedInUser, setLoggedInUser] = useContext(UserContext);
 let history = useHistory();
 let location = useLocation();
-let { from } = location.state || { from: { pathname: "/" } };
+let { from } = location.state || { from: { pathname: "/shipment" } };
 
   const googleProvider = new firebase.auth.GoogleAuthProvider();
   const fbProvider = new firebase.auth.FacebookAuthProvider();
   const handleSignIn = () =>{
     firebase.auth().signInWithPopup(googleProvider)
     .then(result =>{
-      const {displayName, email, photoURL} = result.user;
+      const {displayName, email} = result.user;
       const signedInUser = {
         isSignedIn: true,
         name: displayName,
-        email: email,
-        photo: photoURL
+        email: email
       }
       setUser(signedInUser);
-      // console.log(displayName, email, photoURL)
     })
     
     .catch(err => {
